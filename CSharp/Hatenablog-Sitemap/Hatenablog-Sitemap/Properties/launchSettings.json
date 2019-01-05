@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Hatenablog-Sitemap": {
+      "commandName": "Project",
+      "commandLineArgs": "http://tech.guitarrapc.com"
+    }
+  }
+}
