@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
-    <NullableReferenceTypes>True</NullableReferenceTypes>
     <LangVersion>latest</LangVersion>
     <CopyRetryCount>3</CopyRetryCount>
     <CopyRetryDelayMilliseconds>1000</CopyRetryDelayMilliseconds>
