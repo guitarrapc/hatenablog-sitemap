@@ -4,7 +4,7 @@ Retrieve sitemaps for hatenablog and others via multiple languages.
 
 ### Supported
 
-* C# (C# 8.0 w/.NETCore 2.2)
+* C# (C# 7.3 w/.NETCore 2.2)
 * PowerShell (PowerShell 6.1 w/.NETCore 2.1)
 * Golang
 
@@ -30,8 +30,18 @@ Get-SitemapUrl -Url http://tech.guitarrapc.com
 
 ### Golang
 
+no package sample.
+
 ```golang
 cd Golang/nopackage
 go build
 ./nopackage http://tech.guitarrapc.com
+```
+
+use package sample.
+
+```golang
+cd Golang/usepackage
+go build
+./usepackage http://tech.guitarrapc.com
 ```
