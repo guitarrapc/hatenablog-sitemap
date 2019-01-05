@@ -9,6 +9,36 @@ import (
 	"os"
 )
 
+// SitemapIndex godoc
+// @summary sitemapindex
+type SitemapIndex struct {
+	XMLName          xml.Name          `xml:"sitemapindex"`
+	SitemapLocations []SitemapLocation `xml:"sitemap"`
+}
+
+// SitemapLocation godoc
+// @summary element within sitemapindex
+type SitemapLocation struct {
+	Loc        string `xml:"loc"`
+	Lastmod    string `xml:"lastmod"`
+	Changefreq string `xml:"changefreq"`
+	Priority   string `xml:"priority"`
+}
+
+// Sitemap godoc
+// @summary urlsets
+type Sitemap struct {
+	XMLName xml.Name `xml:"urlset"`
+	Urls    []Url    `xml:"url"`
+}
+
+// Url godoc
+// @summary url element within urlset
+type Url struct {
+	Loc     string `xml:"loc"`
+	Lastmod string `xml:"lastmod"`
+}
+
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Fprintf(os.Stderr, "Usage: %s URL\n", os.Args[0])
@@ -55,72 +85,26 @@ func fetchXML(url string) (data []byte, err error) {
 
 // FetchSitemapIndex godoc
 // @summary : Fetch a remote sitemap index
-func FetchSitemapIndex(url string) (s *SitemapIndex, err error) {
+func FetchSitemapIndex(url string) (sitemapIndex *SitemapIndex, err error) {
 	xmlData, err := fetchXML(url)
 	if err != nil {
 		return
 	}
 
-	s = &SitemapIndex{}
-	err = xml.Unmarshal(xmlData, s)
-	if err != nil {
-		return
-	}
-
+	sitemapIndex = &SitemapIndex{}
+	err = xml.Unmarshal(xmlData, sitemapIndex)
 	return
 }
 
 // FetchSitemap godoc
 // @summary : Fetch a sitemap
-func FetchSitemap(url string) (s *Sitemap, err error) {
+func FetchSitemap(url string) (siteMap *Sitemap, err error) {
 	xmlData, err := fetchXML(url)
 	if err != nil {
 		return
 	}
 
-	s = &Sitemap{}
-	err = xml.Unmarshal(xmlData, s)
-	if err != nil {
-		return
-	}
-
+	siteMap = &Sitemap{}
+	err = xml.Unmarshal(xmlData, siteMap)
 	return
-}
-
-// SitemapIndex godoc
-// @summary sitemapindex
-type SitemapIndex struct {
-	XMLName          xml.Name          `xml:"sitemapindex"`
-	SitemapLocations []SitemapLocation `xml:"sitemap"`
-}
-
-// SitemapLocation godoc
-// @summary element within sitemapindex
-type SitemapLocation struct {
-	Loc        string `xml:"loc"`
-	Lastmod    string `xml:"lastmod"`
-	Changefreq string `xml:"changefreq"`
-	Priority   string `xml:"priority"`
-}
-
-// Sitemap godoc
-// @summary urlsets
-type Sitemap struct {
-	XMLName xml.Name `xml:"urlset"`
-	Urls    []Url    `xml:"url"`
-}
-
-// Url godoc
-// @summary url element within urlset
-type Url struct {
-	Loc     string `xml:"loc"`
-	Lastmod string `xml:"lastmod"`
-}
-
-func (s *SitemapLocation) String() string {
-	return s.Loc
-}
-
-func (u *Url) String() string {
-	return u.Loc
 }
