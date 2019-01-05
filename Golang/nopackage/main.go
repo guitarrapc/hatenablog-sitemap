@@ -97,8 +97,10 @@ type SitemapIndex struct {
 // SitemapLocation godoc
 // @summary element within sitemapindex
 type SitemapLocation struct {
-	Loc     string `xml:"loc"`
-	Lastmod string `xml:"lastmod"`
+	Loc        string `xml:"loc"`
+	Lastmod    string `xml:"lastmod"`
+	Changefreq string `xml:"changefreq"`
+	Priority   string `xml:"priority"`
 }
 
 // Sitemap godoc
