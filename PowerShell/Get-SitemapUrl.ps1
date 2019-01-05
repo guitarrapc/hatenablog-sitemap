@@ -17,7 +17,7 @@ function Get-SitemapUrl {
     [string[]]$urls = $sitemaps | Foreach-Object {
         $eachRes = Invoke-Webrequest $_
         [xml]$page = $eachRes.Content
-        $page.urlset.url.loc
+        Write-Output $page.urlset.url.loc
     }
     Write-Output $urls
 }
