@@ -23,17 +23,19 @@ namespace Hatenablog_Sitemap
             }
         }
 
-        static async Task<string[]> GetHatenaBlogEntries(string url)
+        private static async Task<string[]> GetHatenaBlogEntries(string url)
         {
             var client = new HttpClient();
-            var res = await client.GetStringAsync(url);
             XNamespace ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
-            var sitemaps = XElement.Parse(res).Descendants(ns + "loc").Select(x => x.Value).ToArray();
-            var urls = await Task.WhenAll(sitemaps.Select(async x =>
+
+            async Task<string[]> FetchSitemapAsync(string dest)
             {
-                var eachRes = await client.GetStringAsync(x);
-                return XElement.Parse(eachRes).Descendants(ns + "loc").Select(y => y.Value).ToArray();
-            }));
+                var content = await client.GetStringAsync(dest);
+                return XElement.Parse(content).Descendants(ns + "loc").Select(x => x.Value).ToArray();
+            }
+
+            var sitemaps = await FetchSitemapAsync(url);
+            var urls = await Task.WhenAll(sitemaps.Select(x => FetchSitemapAsync(x)));
             var result = urls.SelectMany(x => x).ToArray();
             return result;
         }
